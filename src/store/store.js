@@ -1,5 +1,5 @@
 import { create } from 'zustand'; 
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 
 export const useStore = create(
@@ -59,7 +59,7 @@ export const useStore = create(
     }),
     {
       name: 'kanban-storage',  // localStorage에 저장되는 키 값
-      getStorage: () => localStorage, // 데이터가 저장될 위치 지정
+      ggetStorage: () => createJSONStorage(() => localStorage), // 데이터가 저장될 위치 지정
     }
   )
 );
