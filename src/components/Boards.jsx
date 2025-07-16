@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BoardDetailModal from './BoardDetailModal';
 import BoardConfirmModal from './BoardConfirmModal';
 import BoardEditModal from './BoardEditModal';
+import { useStore } from "../store/store";
 
 const typeToKorean = (type) => {
   switch (type) {
@@ -17,8 +18,11 @@ const typeToKorean = (type) => {
 };
 
 const Boards = ({ type }) => {
-  const data = [];
-  const filteredData = data.filter((item) => item.type === type);
+  const boards = useStore((state) => state.boards); 
+  const filteredData = boards.filter((board) => board.type === type); 
+  const removeBoard = useStore((state) => state.removeBoard); 
+  const updateBoard = useStore((state) => state.updateBoard); 
+
   const [item, setItem] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [confirmIsOpen, setConfirmIsOpen] = useState(false);
@@ -52,6 +56,14 @@ const Boards = ({ type }) => {
     setIsOpen(false);
   };
   const handleEditModalClose = () => {
+    const updatedTask = {
+    id: item.id,
+    type: item.type,
+    title: item.title, // 수정된 제목
+    desc: item.desc,  // 수정된 설명
+    created_at: item.created_at, // 수정된 날짜
+  };
+    updateBoard(updatedTask);
     setEditIsOpen(false);
   };
 

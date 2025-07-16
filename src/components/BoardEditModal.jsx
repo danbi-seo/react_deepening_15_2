@@ -1,7 +1,12 @@
+import React from 'react';
+import { useStore } from "../store/store";
+
 //1. useBoardStore를 선언하여 zustand 스토어를 불러옵니다.
 //2. updateBoard 함수를 불러와 보드를 업데이트 합니다.
 
 const BoardEditModal = ({ item, onClose }) => {
+  const updateBoard = useStore((state) => state.updateBoard);
+
   const handleForm = (e) => {
     e.preventDefault();
 
@@ -11,8 +16,9 @@ const BoardEditModal = ({ item, onClose }) => {
       type: formData.get('type'),
       title: formData.get('title'),
       desc: formData.get('desc'),
-      created_at: new Date().toISOString().split('T')[0],
+      created_at: new Date().toISOString().split('T')[0], //수정된 날짜
     };
+    updateBoard(editTask); //상태 업데이트
     onClose();
   };
 
